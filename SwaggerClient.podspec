@@ -1,5 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'SwaggerClient'
+  s.summary          = "Boomtown Cloud API"
+  s.homepage     = "https://github.com/swagger-api/swagger-codegen"
+
   s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.11'
   s.tvos.deployment_target = '9.0'
@@ -9,4 +12,5 @@ Pod::Spec.new do |s|
   s.license = 'Proprietary'
   s.source_files = 'SwaggerClient/Classes/**/*.swift'
   s.dependency 'Alamofire', '~> 4.5.0'
+
 end

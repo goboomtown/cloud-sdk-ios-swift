@@ -5,6 +5,7 @@
 //
 
 import Foundation
+//import CommonCrypto
 
 open class SwaggerClientAPI {
     open static var basePath = "https://api.goboomtown.com/api/v3"
@@ -36,6 +37,7 @@ open class RequestBuilder<T> {
     public let isBody: Bool
     public let method: String
     public let URLString: String
+    public var dateFormatter: DateFormatter = DateFormatter()
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> ())?
@@ -48,13 +50,80 @@ open class RequestBuilder<T> {
         self.headers = headers
 
         addHeaders(SwaggerClientAPI.customHeaders)
+        
+//        signRequest(urlString: self.URLString)
     }
-
+    
+    
     open func addHeaders(_ aHeaders:[String:String]) {
         for (header, value) in aHeaders {
             addHeader(name: header, value: value)
         }
     }
+    
+    // MARK: - Signature
+    
+    //        #define API_KEY     @"8BC14C0795C372FF663C"
+    //        #define API_SECRET  @"34959b0274d79ac3f12c7daded059401a000a58b"
+
+//    private func signRequest(urlString: String) {
+////        guard let _ = request.URL else {
+////            return
+////        }
+//        let URL = NSURL.init(string: urlString)
+//        let date = iso8601Date()
+//        let canonicalizedResource = String.init(format: "%@:%@", (URL?.path)!, date)
+//        let signature             = hmacSha256(canonicalizedResource, "34959b0274d79ac3f12c7daded059401a000a58b")
+//    
+//        addHeader(name: "X-Boomtown-Date",      value: date)
+//        addHeader(name: "X-Boomtown-Token",     value: "8BC14C0795C372FF663C")
+//        addHeader(name: "X-Boomtown-Signature", value: signature)
+//    }
+//    
+//    private func hmacSha256(_ parameter: String, _ key: String) -> String {
+//        let str = parameter.cString(using: .utf8)
+//        let strLen = Int(parameter.lengthOfBytes(using: .utf8))
+//        let digestLen = CC_SHA256_DIGEST_LENGTH
+//        let result = UnsafeMutablePointer<CUnsignedChar>.alloc(digestLen)
+//        let keyStr = key.cString(using: .utf8)
+//        let keyLen = Int(key.lengthOfBytes(using: .utf8))
+//        
+//        CCHmac(kCCHmacAlgSHA256, keyStr!, keyLen, str!, strLen, result)
+//        
+//        let digest = stringFromResult(result, length: digestLen)
+//        
+//        result.dealloc(digestLen)
+//        
+//        return digest
+//    }
+//    
+//    private func stringFromResult(result: UnsafeMutablePointer<CUnsignedChar>, length: Int) -> String {
+//        var hash = NSMutableString()
+//        for i in 0..<length {
+//            hash.appendFormat("%02x", result[i])
+//        }
+//        return String(hash)
+//    }
+
+    
+//    func hmacSha256(_ parameter: String, _ salt: String) -> String {
+//        let saltData = salt.data(using: .utf8)
+//        let paramData = parameter.data(using: .utf8)
+//        let hash = NSMutableData.init(length: CC_SHA256_DIGEST_LENGTH)
+//        let base64Hash = String
+//        CCHmac(kCCHmacAlgSHA256, saltData.bytes, saltData.length, paramData.bytes, paramData.length, hash.mutableBytes);
+//        NSString *base64Hash = [hash base64EncodedStringWithOptions:0];
+//        return base64Hash;
+//    }
+    
+    
+    func iso8601Date() -> String {
+        let enUSPOSIXLocale = Locale.windowsLocaleCode(fromIdentifier: "en_US_POSIX")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd'T'HH:mm:ssZZZZZ")    
+        let iso8601String = dateFormatter.string(from: Date())
+        return iso8601String;
+    }    
+
 
     open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) { }
 
