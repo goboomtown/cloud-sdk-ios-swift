@@ -16,7 +16,7 @@ extension RequestBuilder {
         let date = iso8601Date()
         var path = (URL?.path)!
         if let query = URL?.query {
-            path += query
+            path += "?" + query
         }
         let canonicalizedResource = String.init(format: "%@:%@", path, date)
         let signature             = hmacSha256(canonicalizedResource, secret)
