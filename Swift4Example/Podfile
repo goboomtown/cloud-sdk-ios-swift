@@ -1,0 +1,28 @@
+# Boomtown Connect Podfile
+
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/twilio/cocoapod-specs'
+# use_frameworks!
+
+platform :ios, '11.0'
+
+target 'Example' do
+    # pod  'AFNetworking', '~> 3'
+    # pod  'JSONModel', '~> 1.2'
+    # pod  'ISO8601', '~> 0.6'
+    pod 'SwaggerClient', :path => '..'
+end
+
+target 'ExampleTests' do
+  # pod  'AFNetworking', '~> 3'
+  # pod  'JSONModel', '~> 1.2'
+  # pod  'ISO8601', '~> 0.6'
+  pod 'SwaggerClient', :path => '..'
+end
+
+target 'ExampleUITests' do
+  # pod  'AFNetworking', '~> 3'
+  # pod  'JSONModel', '~> 1.2'
+  # pod  'ISO8601', '~> 0.6'
+  pod 'SwaggerClient', :path => '..'
+end
